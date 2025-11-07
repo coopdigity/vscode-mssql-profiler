@@ -1,0 +1,9 @@
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Database cylinder -->
+  <ellipse cx="12" cy="6" rx="7" ry="3" stroke="currentColor" stroke-width="1.5" fill="none"/>
+  <path d="M 5 6 L 5 18 C 5 19.6569 8.13401 21 12 21 C 15.866 21 19 19.6569 19 18 L 19 6" stroke="currentColor" stroke-width="1.5" fill="none"/>
+  <ellipse cx="12" cy="18" rx="7" ry="3" stroke="currentColor" stroke-width="1.5" fill="none"/>
+
+  <!-- Performance graph line -->
+  <path d="M 7 10 L 9 12 L 11 9 L 13 11 L 15 8 L 17 10" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.8"/>
+</svg>

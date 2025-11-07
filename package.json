@@ -1,0 +1,280 @@
+{
+  "name": "vscode-mssql-profiler",
+  "displayName": "SQL Server Profiler",
+  "description": "SQL Server profiling tool using Extended Events - replacement for Azure Data Studio profiler",
+  "version": "0.2.0",
+  "publisher": "your-publisher-name",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other",
+    "Data Science"
+  ],
+  "keywords": [
+    "sql",
+    "sql server",
+    "profiler",
+    "xevents",
+    "extended events",
+    "performance",
+    "database"
+  ],
+  "activationEvents": [
+    "onCommand:mssql-profiler.newProfiler"
+  ],
+  "main": "./out/extension.js",
+  "icon": "resources/icon.png",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "mssql-profiler-explorer",
+          "title": "SQL Server Profiler",
+          "icon": "resources/profiler-icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "mssql-profiler-explorer": [
+        {
+          "id": "mssql-profiler-connections",
+          "name": "Connections",
+          "contextualTitle": "SQL Server Profiler Connections"
+        },
+        {
+          "id": "mssql-profiler-sessions",
+          "name": "Active Sessions",
+          "contextualTitle": "SQL Server Profiler Sessions"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "mssql-profiler.newProfiler",
+        "title": "New Profiler",
+        "category": "SQL Server Profiler"
+      },
+      {
+        "command": "mssql-profiler.startProfiling",
+        "title": "Start Profiling",
+        "category": "SQL Server Profiler"
+      },
+      {
+        "command": "mssql-profiler.stopProfiling",
+        "title": "Stop Profiling",
+        "category": "SQL Server Profiler"
+      },
+      {
+        "command": "mssql-profiler.pauseProfiling",
+        "title": "Pause Profiling",
+        "category": "SQL Server Profiler"
+      },
+      {
+        "command": "mssql-profiler.manageConnections",
+        "title": "Manage Connections",
+        "category": "SQL Server Profiler"
+      },
+      {
+        "command": "mssql-profiler.reconnect",
+        "title": "Reconnect",
+        "category": "SQL Server Profiler"
+      },
+      {
+        "command": "mssql-profiler.refreshConnections",
+        "title": "Refresh Connections",
+        "category": "SQL Server Profiler",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "mssql-profiler.addConnection",
+        "title": "Add Connection",
+        "category": "SQL Server Profiler",
+        "icon": "$(add)"
+      },
+      {
+        "command": "mssql-profiler.deleteConnection",
+        "title": "Delete Connection",
+        "category": "SQL Server Profiler",
+        "icon": "$(trash)"
+      },
+      {
+        "command": "mssql-profiler.editConnection",
+        "title": "Edit Connection",
+        "category": "SQL Server Profiler",
+        "icon": "$(edit)"
+      },
+      {
+        "command": "mssql-profiler.startFromConnection",
+        "title": "Start Profiling",
+        "category": "SQL Server Profiler",
+        "icon": "$(debug-start)"
+      }
+    ],
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "mssql-profiler.newProfiler",
+          "when": "true"
+        },
+        {
+          "command": "mssql-profiler.startProfiling",
+          "when": "false"
+        },
+        {
+          "command": "mssql-profiler.stopProfiling",
+          "when": "false"
+        },
+        {
+          "command": "mssql-profiler.pauseProfiling",
+          "when": "false"
+        },
+        {
+          "command": "mssql-profiler.manageConnections",
+          "when": "true"
+        },
+        {
+          "command": "mssql-profiler.reconnect",
+          "when": "false"
+        },
+        {
+          "command": "mssql-profiler.refreshConnections",
+          "when": "false"
+        },
+        {
+          "command": "mssql-profiler.addConnection",
+          "when": "false"
+        },
+        {
+          "command": "mssql-profiler.deleteConnection",
+          "when": "false"
+        },
+        {
+          "command": "mssql-profiler.editConnection",
+          "when": "false"
+        },
+        {
+          "command": "mssql-profiler.startFromConnection",
+          "when": "false"
+        }
+      ],
+      "view/title": [
+        {
+          "command": "mssql-profiler.addConnection",
+          "when": "view == mssql-profiler-connections",
+          "group": "navigation"
+        },
+        {
+          "command": "mssql-profiler.refreshConnections",
+          "when": "view == mssql-profiler-connections",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "mssql-profiler.startFromConnection",
+          "when": "view == mssql-profiler-connections && viewItem == connection",
+          "group": "inline"
+        },
+        {
+          "command": "mssql-profiler.editConnection",
+          "when": "view == mssql-profiler-connections && viewItem == connection",
+          "group": "1_actions@1"
+        },
+        {
+          "command": "mssql-profiler.deleteConnection",
+          "when": "view == mssql-profiler-connections && viewItem == connection",
+          "group": "1_actions@2"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "SQL Server Profiler",
+      "properties": {
+        "mssql-profiler.maxEvents": {
+          "type": "number",
+          "default": 1000,
+          "description": "Maximum number of events to display in the profiler"
+        },
+        "mssql-profiler.autoStartSession": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically start profiling after creating a session"
+        },
+        "mssql-profiler.connectionProfiles": {
+          "type": "array",
+          "default": [],
+          "description": "Saved connection profiles (passwords stored securely in secret storage)",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "serverName": {
+                "type": "string"
+              },
+              "databaseName": {
+                "type": "string"
+              },
+              "authenticationType": {
+                "type": "string"
+              },
+              "userName": {
+                "type": "string"
+              },
+              "isAzure": {
+                "type": "boolean"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "npm run compile:extension && npm run compile:webview",
+    "compile:extension": "tsc -p ./",
+    "compile:webview": "webpack --mode production",
+    "watch": "npm run watch:extension & npm run watch:webview",
+    "watch:extension": "tsc -watch -p ./",
+    "watch:webview": "webpack --watch --mode development",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js"
+  },
+  "extensionDependencies": [
+    "ms-mssql.mssql"
+  ],
+  "dependencies": {
+    "mssql": "^12.1.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "vscode-nls": "^5.2.0"
+  },
+  "devDependencies": {
+    "@types/mssql": "^9.1.8",
+    "@types/node": "^20.x",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
+    "@types/vscode": "^1.85.0",
+    "@typescript-eslint/eslint-plugin": "^6.13.0",
+    "@typescript-eslint/parser": "^6.13.0",
+    "@vscode/codicons": "^0.0.41",
+    "css-loader": "^7.1.2",
+    "eslint": "^8.54.0",
+    "style-loader": "^4.0.0",
+    "ts-loader": "^9.5.4",
+    "typescript": "^5.3.0",
+    "webpack": "^5.102.1",
+    "webpack-cli": "^6.0.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/vscode-mssql-profiler.git"
+  },
+  "license": "GPL-3.0"
+}
