@@ -1,0 +1,50 @@
+name: Publish to VS Code Marketplace
+
+on:
+  release:
+    types: [ published ]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to publish (e.g., 0.2.0)'
+        required: true
+        type: string
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.x'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Compile and build
+      run: npm run compile
+
+    - name: Install vsce
+      run: npm install -g @vscode/vsce
+
+    - name: Package extension
+      run: vsce package
+
+    - name: Publish to VS Code Marketplace
+      if: github.event_name == 'release' || github.event_name == 'workflow_dispatch'
+      env:
+        VSCE_PAT: ${{ secrets.VSCE_PAT }}
+      run: vsce publish -p $VSCE_PAT
+
+    - name: Upload packaged extension
+      uses: actions/upload-artifact@v4
+      with:
+        name: vscode-mssql-profiler-published
+        path: '*.vsix'
+        retention-days: 90
