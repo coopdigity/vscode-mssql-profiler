@@ -20,9 +20,6 @@
     "performance",
     "database"
   ],
-  "activationEvents": [
-    "onCommand:mssql-profiler.newProfiler"
-  ],
   "main": "./out/extension.js",
   "icon": "resources/icon.png",
   "contributes": {
