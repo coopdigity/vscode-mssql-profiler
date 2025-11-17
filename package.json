@@ -2,7 +2,7 @@
   "name": "vscode-mssql-profiler",
   "displayName": "SQL Server Profiler",
   "description": "SQL Server profiling tool using Extended Events - replacement for Azure Data Studio profiler",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "publisher": "coopdigity-inc",
   "engines": {
     "vscode": "^1.85.0"
