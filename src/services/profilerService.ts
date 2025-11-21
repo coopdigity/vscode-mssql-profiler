@@ -38,10 +38,16 @@ export class ProfilerService {
                 return pool;
             }
         }
-
+        
+        let infoCn = connection.serverName.split(':');
+        
+        if(infoCn.length === 1){
+            infoCn.push("1433");
+        }
         const config: sql.config = {
-            server: connection.serverName,
+            server: infoCn[0],
             database: connection.databaseName,
+            port: parseInt(infoCn[1]),
             options: {
                 encrypt: connection.isAzure,
                 trustServerCertificate: !connection.isAzure,
